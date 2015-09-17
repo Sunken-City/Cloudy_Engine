@@ -11,10 +11,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\ThirdParty\stb_image.c" />
+    <ClCompile Include="Core\ErrorWarningAssert.cpp" />
+    <ClCompile Include="Core\StringUtils.cpp" />
+    <ClCompile Include="Input\XInputController.cpp" />
+    <ClCompile Include="Math\MathUtils.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
+    <ClCompile Include="Math\Vector2Int.cpp" />
+    <ClCompile Include="Renderer\AABB2.cpp" />
+    <ClCompile Include="Renderer\RGBA.cpp" />
+    <ClCompile Include="Renderer\SpriteAnim.cpp" />
+    <ClCompile Include="Renderer\SpriteSheet.cpp" />
+    <ClCompile Include="Renderer\Texture.cpp" />
+    <ClCompile Include="Renderer\TheRenderer.cpp" />
+    <ClCompile Include="Time\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\ErrorWarningAssert.hpp" />
+    <ClInclude Include="Core\StringUtils.hpp" />
+    <ClInclude Include="Input\XInputController.hpp" />
+    <ClInclude Include="Math\MathUtils.hpp" />
     <ClInclude Include="Math\Vector2.hpp" />
+    <ClInclude Include="Math\Vector2Int.hpp" />
+    <ClInclude Include="Renderer\AABB2.hpp" />
+    <ClInclude Include="Renderer\RGBA.hpp" />
+    <ClInclude Include="Renderer\SpriteAnim.hpp" />
+    <ClInclude Include="Renderer\SpriteSheet.hpp" />
+    <ClInclude Include="Renderer\Texture.hpp" />
+    <ClInclude Include="Renderer\TheRenderer.hpp" />
+    <ClInclude Include="Time\Time.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{ADF625C9-96EC-4C9F-B6F0-235762D622AE}</ProjectGuid>
