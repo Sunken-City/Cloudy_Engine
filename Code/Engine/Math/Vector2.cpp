@@ -1,4 +1,5 @@
 #include "Engine/Math/Vector2.hpp"
+#include "Engine/Math/MathUtils.hpp"
 #include <math.h>
 
 Vector2::Vector2()
@@ -34,6 +35,11 @@ void Vector2::Normalize()
 	if (len == 0.f)return;
 	x /= len;
 	y /= len;
+}
+
+float Vector2::CalculateTheta()
+{
+	return MathUtils::RadiansToDegrees(atan2(y, x));
 }
 
 Vector2& Vector2::operator+=(const Vector2& rhs)

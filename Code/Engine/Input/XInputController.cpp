@@ -5,13 +5,13 @@
 
 const float XInputController::DEADZONE = 0.153f;
 
-XInputController::XInputController(int controllerNumber) : m_controllerNumber(controllerNumber), m_isConnected(false)
+XInputController::XInputController(int controllerNumber) : m_controllerNumber(controllerNumber), m_isConnected(false), m_secondsToVibrate(0.f)
 {
 	memset(&m_state, 0, sizeof(m_state));
 	memset(&m_previousState, 0, sizeof(m_previousState));
 }
 
-XInputController::XInputController() : m_controllerNumber(INVALID_CONTROLLER_NUMBER), m_isConnected(false)
+XInputController::XInputController() : m_controllerNumber(INVALID_CONTROLLER_NUMBER), m_isConnected(false), m_secondsToVibrate(0.f)
 {
 	memset(&m_state, 0, sizeof(m_state));
 	memset(&m_previousState, 0, sizeof(m_previousState));
@@ -150,7 +150,7 @@ void XInputController::Vibrate(int leftMotorVibration, int rightMotorVibration)
 
 void XInputController::VibrateForSeconds(float seconds, int leftMotorVibration, int rightMotorVibration)
 {
-	if ( m_secondsToVibrate > seconds )
+	if ( m_secondsToVibrate < seconds )
 		m_secondsToVibrate = seconds;
 	Vibrate(leftMotorVibration, rightMotorVibration);
 }

@@ -20,10 +20,11 @@ STATIC std::map<std::string, Texture*> Texture::s_textureRegistry;
 Texture::Texture( const std::string& imageFilePath )
 	: m_openglTextureID( 0 )
 	, m_texelSize( 0, 0 )
+	, m_imageData(nullptr)
 {
 	int numComponents = 0; // Filled in for us to indicate how many color/alpha components the image had (e.g. 3=RGB, 4=RGBA)
 	int numComponentsRequested = 0; // don't care; we support 3 (RGB) or 4 (RGBA)
-	unsigned char* imageData = stbi_load( imageFilePath.c_str(), &m_texelSize.x, &m_texelSize.y, &numComponents, numComponentsRequested );
+	m_imageData = stbi_load( imageFilePath.c_str(), &m_texelSize.x, &m_texelSize.y, &numComponents, numComponentsRequested );
 
 	// Enable texturing
 	glEnable( GL_TEXTURE_2D );
@@ -43,7 +44,7 @@ Texture::Texture( const std::string& imageFilePath )
 
 	// Set magnification (texel > pixel) and minification (texel < pixel) filters
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST ); // one of: GL_NEAREST, GL_LINEAR
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );  // one of: GL_NEAREST, GL_LINEAR, GL_NEAREST_MIPMAP_NEAREST, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_NEAREST, GL_LINEAR_MIPMAP_LINEAR
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );  // one of: GL_NEAREST, GL_LINEAR, GL_NEAREST_MIPMAP_NEAREST, GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_NEAREST, GL_LINEAR_MIPMAP_LINEAR
 
 	GLenum bufferFormat = GL_RGBA; // the format our source pixel data is currently in; any of: GL_RGB, GL_RGBA, GL_LUMINANCE, GL_LUMINANCE_ALPHA, ...
 	if( numComponents == 3 )
@@ -62,12 +63,28 @@ Texture::Texture( const std::string& imageFilePath )
 		0,					// Border size, in texels (must be 0 or 1)
 		bufferFormat,		// Pixel format describing the composition of the pixel data in buffer
 		GL_UNSIGNED_BYTE,	// Pixel color components are unsigned bytes (one byte per color/alpha channel)
-		imageData );		// Location of the actual pixel data bytes/buffer
+		m_imageData );		// Location of the actual pixel data bytes/buffer
 
-	stbi_image_free( imageData );
 	glDisable(GL_TEXTURE_2D);
 }
 
+
+Texture::Texture(int textureID, const Vector2Int& texelSize, const std::string& imageFilePath)
+{
+	m_texelSize = texelSize;
+	m_openglTextureID = textureID;
+	Texture::s_textureRegistry[imageFilePath] = this;
+}
+
+unsigned char* Texture::GetImageData()
+{
+	return m_imageData;
+}
+
+Texture::~Texture()
+{
+	stbi_image_free(m_imageData);
+}
 
 //---------------------------------------------------------------------------
 // Returns a pointer to the already-loaded texture of a given image file,
