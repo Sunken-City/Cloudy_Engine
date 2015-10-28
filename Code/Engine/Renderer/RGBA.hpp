@@ -17,3 +17,5 @@ public:
 private:
 
 };
+
+inline bool operator==(const RGBA& lhs, const RGBA& rhs){ return (lhs.red == rhs.red) && (lhs.green == rhs.green) && (lhs.blue == rhs.blue) && (lhs.alpha == rhs.alpha); }
